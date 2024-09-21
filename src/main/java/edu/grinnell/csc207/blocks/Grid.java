@@ -4,7 +4,7 @@ package edu.grinnell.csc207.blocks;
  * A grid of a single text block.
  *
  * @author Samuel A. Rebelsky
- * @author Your Name Here
+ * @author Andrew N. Fargo
  */
 public class Grid implements AsciiBlock {
   // +--------+------------------------------------------------------------
@@ -62,7 +62,12 @@ public class Grid implements AsciiBlock {
    *   If the row is invalid.
    */
   public String row(int i) throws Exception {
-    throw new Exception("Not yet implemented"); // STUB
+    if (i >= this.height()) {
+      throw new Exception("Invalid row: " + i);
+    } // if
+
+    String elementRow = this.element.row(i % this.element.height());
+    return elementRow.repeat(this.hreps);
   } // row(int)
 
   /**
@@ -71,7 +76,7 @@ public class Grid implements AsciiBlock {
    * @return the number of rows
    */
   public int height() {
-    return 0;   // STUB
+    return this.element.height() * this.vreps;
   } // height()
 
   /**
@@ -80,7 +85,7 @@ public class Grid implements AsciiBlock {
    * @return the number of columns
    */
   public int width() {
-    return 0;   // STUB
+    return this.element.width() * this.hreps;
   } // width()
 
   /**
