@@ -80,7 +80,13 @@ public class HComp implements AsciiBlock {
    * @return the number of rows
    */
   public int height() {
-    return 0;   // STUB
+    int max = 0;
+    for (AsciiBlock block : this.blocks) {
+      if (block.height() > max) {
+	max = block.height();
+      } // if
+    } // for block
+    return max;
   } // height()
 
   /**
@@ -89,7 +95,11 @@ public class HComp implements AsciiBlock {
    * @return the number of columns
    */
   public int width() {
-    return 0;   // STUB
+    int sum = 0;
+    for (AsciiBlock block : this.blocks) {
+      sum += block.width();
+    } // for
+    return sum;
   } // width()
 
   /**
@@ -104,4 +114,26 @@ public class HComp implements AsciiBlock {
   public boolean eqv(AsciiBlock other) {
     return false;       // STUB
   } // eqv(AsciiBlock)
+
+  /**
+   * Determine if another HComp block is structurally equivalent to this one.
+   * @param other
+   *   The other HComp block.
+   * @return true if the two blocks are structurally equivalend and
+   *   false otherwise.
+   */
+  public boolean eqv(HComp other) {
+    boolean alignEq = this.align == other.align;
+    boolean lenEq = this.blocks.length == other.blocks.length;
+    if (!alignEq || !lenEq) {
+      return false;
+    }
+
+    for (int i = 0; i < this.blocks.length; i++) {
+      if (!this.blocks[i].eqv(other.blocks[i])) {
+	return false;
+      } // if
+    } // for i
+    return true;
+  } // eqv(HComp)
 } // class HComp
