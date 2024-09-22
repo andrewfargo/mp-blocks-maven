@@ -135,6 +135,16 @@ public class Subdivision {
   } // Subdivision(Alignment, int, int)
 
   /**
+   * Get the subdivision widths as an array.
+   * @return [antecontent, content, postcontent]
+   */
+  public int[] getWidths() {
+    return new int[] {this.antecontent,
+		      this.content,
+		      this.postcontent};
+  } // getWidths()
+
+  /**
    * Given an index into the subdivision, return which part
    * of the subdivision the index is in.
    * @param index
@@ -142,7 +152,7 @@ public class Subdivision {
    * @return An alignment representing the section `index` is in.
    * @throws Exception if index is less than zero or g.e. totalWidth
    */
-  Alignment getAlignment(int index) throws Exception {
+  public Alignment getAlignment(int index) throws Exception {
     int totalwidth = antecontent + content + postcontent;
     if (index < 0 || index >= totalwidth) {
       throw new Exception("Invalid index: " + index);
