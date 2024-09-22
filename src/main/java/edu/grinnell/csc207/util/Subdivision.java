@@ -40,7 +40,7 @@ public class Subdivision {
    * A generic representation of HAlign and VAlign,
    * defined by how they impact the calculations.
    */
-  private enum Alignment {
+  public enum Alignment {
     /** Either Top or Left. */
     ANTE,
     /** Center in both cases. */
@@ -135,75 +135,23 @@ public class Subdivision {
   } // Subdivision(Alignment, int, int)
 
   /**
-   * Retrieve the antecontent length.
-   * In the example "aaabbcccc" this would return 3.
-   * @return Antecontent length.
+   * Given an index into the subdivision, return which part
+   * of the subdivision the index is in.
+   * @param index
+   *   An index of the total width (0 <= index < totalWidth)
+   * @return An alignment representing the section `index` is in.
+   * @throws Exception if index is less than zero or g.e. totalWidth
    */
-  public int getAnteLength() {
-    return this.antecontent;
-  } // getAnteLength()
-
-  /**
-   * Retrieve the content length.
-   * In the example "aaabbcccc" this would return 2.
-   * @return Content length.
-   */
-  public int getContentLength() {
-    return this.content;
-  } // getContentLength()
-
-  /**
-   * Retrive the postcontent length.
-   * In the example "aaabbcccc" this would return 4.
-   * @return Postcontent length.
-   */
-  public int getPostLength() {
-    return this.postcontent;
-  } // getPostLength()
-
-  /**
-   * Retrieve the index of the start of the content.
-   * In the example "aaabbcccc" this would return 3,
-   * since an array index 3 represents the fourth element,
-   * which is the first instance of "b".
-   * @return Content offset
-   */
-  public int getContentOffset() {
-    return this.getAnteLength();
-  } // getContentOffset()
-
-  /**
-   * Retrieve the index of the start of the postcontent.
-   * In the example "aaabbcccc" this would return 5,
-   * since an array index 5 represents the sixth element,
-   * which is the first instance of "c".
-   *
-   * Note: If the content is the same width as the total width,
-   * or if the content is post-aligned, this index will be
-   * out of bounds.
-   * @return Postcontent offset
-   */
-  public int getPostOffset() {
-    return this.getAnteLength() + this.getContentLength();
-  } // getPostOffset()
-
-  /**
-   * Retrieve the subdivision lengths as an integer array.
-   * @return [Ante, Content, Post]
-   */
-  public int[] getLengthArray() {
-    return new int[] {this.getAnteLength(),
-		      this.getContentLength(),
-		      this.getPostLength()};
-  }
-
-  /**
-   * Retrieve the subdivision offsets as an integer array.
-   * @return [ContentOffset, PostcontentOffset]
-   */
-  public int[] getOffsetArray() {
-    return new int[] {this.getContentOffset(),
-		      this.getPostOffset()};
-  }
-  
+  Alignment getAlignment(int index) throws Exception {
+    int totalwidth = antecontent + content + postcontent;
+    if (index < 0 || index >= totalwidth) {
+      throw new Exception("Invalid index: " + index);
+    } else if (index < antecontent) {
+      return Alignment.ANTE;
+    } else if (index < antecontent + content) {
+      return Alignment.CENTER;
+    } else {
+      return Alignment.POST;
+    } // else
+  } // getAlign(int)
 } // class Subdivision
