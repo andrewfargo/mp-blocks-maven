@@ -1,13 +1,13 @@
 package edu.grinnell.csc207.blocks;
 
 import java.util.Arrays;
+import edu.grinnell.csc207.util.Subdivision;
 
 /**
  * The vertical composition of blocks.
  *
  * @author Samuel A. Rebelsky
- * @author Your Name Here
- * @author Your Name Here
+ * @author Andrew N. Fargo
  */
 public class VComp implements AsciiBlock {
   // +--------+------------------------------------------------------------
@@ -72,7 +72,31 @@ public class VComp implements AsciiBlock {
    *   if i is outside the range of valid rows.
    */
   public String row(int i) throws Exception {
-    return "";  // STUB
+    String ret = "";
+    if (i < 0) {
+      throw new Exception("Invalid row: " + i);
+    } // if
+
+    // Get the block at row i
+    int j = 0, height = 0;
+    AsciiBlock current;
+    do {
+      current = this.blocks[i];
+      height += current.height();
+      j++;
+    } while (height < i && j < this.blocks.length);
+    // Make i relative to said block
+    height -= current.height();
+    i -= height;
+
+    // Find positional alignment
+    Subdivision div = new Subdivision(this.align, this.width(),
+				      current.width());
+    int[] widths = div.getWidths();
+    ret += " ".repeat(widths[0]);
+    ret += current.row(i);
+    ret += " ".repeat(widths[2]);
+    return ret;
   } // row(int)
 
   /**
@@ -81,7 +105,11 @@ public class VComp implements AsciiBlock {
    * @return the number of rows
    */
   public int height() {
-    return 0;   // STUB
+    int sum = 0;
+    for (AsciiBlock block : this.blocks) {
+      sum += block.height();
+    }
+    return sum;
   } // height()
 
   /**
@@ -90,7 +118,14 @@ public class VComp implements AsciiBlock {
    * @return the number of columns
    */
   public int width() {
-    return 0;   // STUB
+    int max = 0;
+    for (AsciiBlock block : this.blocks) {
+      int width = block.width();
+      if (width > max) {
+	max = width;
+      } // if
+    } // for block
+    return max;
   } // width()
 
   /**
@@ -103,6 +138,28 @@ public class VComp implements AsciiBlock {
    *    false otherwise.
    */
   public boolean eqv(AsciiBlock other) {
-    return false;       // STUB
+    return (other instanceof VComp) && this.eqv((VComp) other);
   } // eqv(AsciiBlock)
+
+    /**
+   * Determine if another VComp block is structurally equivalent to this one.
+   * @param other
+   *   The other VComp block.
+   * @return true if the two blocks are structurally equivalent and
+   *   false otherwise.
+   */
+  public boolean eqv(VComp other) {
+    boolean alignEq = this.align == other.align;
+    boolean lenEq = this.blocks.length == other.blocks.length;
+    if (!alignEq || !lenEq) {
+      return false;
+    } // if
+
+    for (int i = 0; i < this.blocks.length; i++) {
+      if (!this.blocks[i].eqv(other.blocks[i])) {
+	return false;
+      } // if
+    } // for i
+    return true;
+  } // eqv(VComp)
 } // class VComp
