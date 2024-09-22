@@ -23,8 +23,11 @@ import edu.grinnell.csc207.blocks.VAlignment;
  * Where "a" is the space before the content, "b" is the content,
  * and "c" is the space after the content.
  *
- * This class contains methods of retrieving both how long each section is,
- * and also the index from the start each section begins.
+ * This class often refers to these sections as `antecontent`, `content`,
+ * and `postcontent.` To be "aligned" to these sections is for the content
+ * to be placed such that it minimizes the antecontent or postcontent lengths
+ * (if aligned antecontent and postcontent, respectively), or maximizes both,
+ * (if aligned center; preferring maximization of postcontent).
  * 
  * @author Andrew N. Fargo
  */
@@ -41,14 +44,20 @@ public class Subdivision {
    * defined by how they impact the calculations.
    */
   public enum Alignment {
-    /** Either Top or Left. */
+    /** Stuff before the content. May also indicate Left/Top alignment. */
     ANTE,
-    /** Center in both cases. */
+    /** The content. May also indicate Center alignment */
     CENTER,
-    /** Either Bottom or Right. */
+    /** Stuff after the content. May also indicate Right/Bottom alignment. */
     POST,
   } // Alignment
 
+  /**
+   * Convert an HAlignment enumeration into a generic Align enumeration.
+   * @param align
+   *   An HAlignment value. (LEFT, CENTER, RIGHT)
+   * @return An equivalent Alignment value: ANTE, CENTER, POST
+   */
   private static Alignment convertHAlign(HAlignment align) {
     switch (align) {
       case LEFT:
@@ -62,6 +71,12 @@ public class Subdivision {
     } // switch
   } // convertHAlign(HAlignment)
 
+  /**
+   * Convert a VAlignment enumeration into a generic Align enumeration.
+   * @param align
+   *   A VAlignment value. (TOP, CENTER, BOTTOM)
+   * @return An equivalent Alignment value: ANTE, CENTER, POST
+   */
   private static Alignment convertVAlign(VAlignment align) {
     switch (align) {
       case TOP:

@@ -89,6 +89,7 @@ public class HComp implements AsciiBlock {
 	  break;
 	case CENTER:
 	  ret += block.row(i);
+	  break;
 	default:
 	  throw new Exception("Invalid alignment condition: " + condition);
       }
