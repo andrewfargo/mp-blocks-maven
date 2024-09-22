@@ -104,8 +104,9 @@ public class HComp implements AsciiBlock {
   public int height() {
     int max = 0;
     for (AsciiBlock block : this.blocks) {
-      if (block.height() > max) {
-	max = block.height();
+      int height = block.height();
+      if (height > max) {
+	max = height;
       } // if
     } // for block
     return max;
@@ -141,7 +142,7 @@ public class HComp implements AsciiBlock {
    * Determine if another HComp block is structurally equivalent to this one.
    * @param other
    *   The other HComp block.
-   * @return true if the two blocks are structurally equivalend and
+   * @return true if the two blocks are structurally equivalent and
    *   false otherwise.
    */
   public boolean eqv(HComp other) {
@@ -149,7 +150,7 @@ public class HComp implements AsciiBlock {
     boolean lenEq = this.blocks.length == other.blocks.length;
     if (!alignEq || !lenEq) {
       return false;
-    }
+    } // if
 
     for (int i = 0; i < this.blocks.length; i++) {
       if (!this.blocks[i].eqv(other.blocks[i])) {
