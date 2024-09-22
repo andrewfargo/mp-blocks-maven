@@ -1,12 +1,13 @@
 package edu.grinnell.csc207.blocks;
 
 import java.util.Arrays;
+import edu.grinnell.csc207.util.Subdivision;
 
 /**
  * The horizontal composition of blocks.
  *
  * @author Samuel A. Rebelsky
- * @author Your Name Here
+ * @author Andrew N. Fargo
  */
 public class HComp implements AsciiBlock {
   // +--------+------------------------------------------------------------
@@ -71,7 +72,28 @@ public class HComp implements AsciiBlock {
    *   if i is outside the range of valid rows.
    */
   public String row(int i) throws Exception {
-    return "";  // STUB
+    String ret = "";
+    int height = this.height();
+
+    if (i < 0 || i > height - 1) {
+      throw new Exception("Invalid row: " + i);
+    } // if
+
+    for (AsciiBlock block : this.blocks) {
+      Subdivision div = new Subdivision(this.align, height, block.height());
+      Subdivision.Alignment condition = div.getAlignment(i);
+      switch (condition) {
+	case ANTE:
+	case POST:
+	  ret += " ".repeat(block.width());
+	  break;
+	case CENTER:
+	  ret += block.row(i);
+	default:
+	  throw new Exception("Invalid alignment condition: " + condition);
+      }
+    } // for block
+    return ret;
   } // row(int)
 
   /**
