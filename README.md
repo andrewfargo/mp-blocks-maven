@@ -14,4 +14,7 @@ PLEASE ADD NOTES FOR SOMEONE NOT FAMILIAR WITH THE PROJECT.
 
 ---
 
-This code may be found at <https://github.com/andrewfargo/mp-blocks-maven>. The original project can be found at <https://github.com/Grinnell-CSC207/mp-blocks-maven>.
+This code may be found at <https://github.com/andrewfargo/mp-blocks-maven>. 
+The original project can be found at <https://github.com/Grinnell-CSC207/mp-blocks-maven>.
+
+Specifications for this project may be found at <https://rebelsky.cs.grinnell.edu/Courses/CSC207/2024Fa/mps/mp03.html>
