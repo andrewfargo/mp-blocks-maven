@@ -4,7 +4,7 @@ package edu.grinnell.csc207.blocks;
  * A horizontally flipped ASCII block.
  *
  * @author Samuel A. Rebelsky
- * @author Your Name Here
+ * @author Bonsen Yusuf
  */
 public class HFlip implements AsciiBlock {
   // +--------+------------------------------------------------------------
@@ -45,7 +45,12 @@ public class HFlip implements AsciiBlock {
    *   If the row is invalid.
    */
   public String row(int i) throws Exception {
-    throw new Exception("Not yet implemented"); // STUB
+    if (i < 0 || i >= height()) { //index cannot be negative or out of the height bounds
+      throw new Exception("Invalid row index: " + i);
+    }
+    // Get the original row and reverse it
+    String originalRow = block.row(i);
+    return new StringBuilder(originalRow).reverse().toString(); // Reverse the string
   } // row(int)
 
   /**
@@ -54,7 +59,7 @@ public class HFlip implements AsciiBlock {
    * @return the number of rows
    */
   public int height() {
-    return 0;   // STUB
+    return block.height();   // Should be the same height as the original block
   } // height()
 
   /**
@@ -63,7 +68,7 @@ public class HFlip implements AsciiBlock {
    * @return the number of columns
    */
   public int width() {
-    return 0;   // STUB
+    return block.width();   // Should be the same width as original blovk
   } // width()
 
   /**
@@ -76,6 +81,21 @@ public class HFlip implements AsciiBlock {
    *    false otherwise.
    */
   public boolean eqv(AsciiBlock other) {
-    return false;       // STUB
+    if (height() != other.height() || width() != other.width()) {
+      return false; // ensure the blocks have the same dimensions
+    }
+
+    // Compare each row
+    try {
+      for (int i = 0; i < height(); i++) {
+        if (!row(i).equals(other.row(i))) {
+          return false;
+        }
+      }
+    } catch (Exception e) {
+      return false; // If there's an exception, they're not equivalent
+    }
+
+    return true;
   } // eqv(AsciiBlock)
 } // class HFlip
