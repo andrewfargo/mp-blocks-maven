@@ -4,7 +4,7 @@ package edu.grinnell.csc207.blocks;
  * A vertically flipped ASCII block.
  *
  * @author Samuel A. Rebelsky
- * @author Your Name Here
+ * @author Bonsen Yusuf
  */
 public class VFlip implements AsciiBlock {
   // +--------+------------------------------------------------------------
@@ -45,7 +45,10 @@ public class VFlip implements AsciiBlock {
    *   If the row is invalid.
    */
   public String row(int i) throws Exception {
-    throw new Exception("Not yet implemented"); // STUB
+    if (i < 0 || i >= height()) {
+      throw new Exception("Invalid row index: " + i);
+    }
+    return block.row(height() - 1 - i); // Flip the row vertically, height() - 1 gives the index of the last row in the block and subtracting i from this value effectively maps the row index i to its corresponding row in the original block when viewed upside down.
   } // row(int)
 
   /**
@@ -54,7 +57,7 @@ public class VFlip implements AsciiBlock {
    * @return the number of rows
    */
   public int height() {
-    return 0;   // STUB
+    return block.height(); // Same height as the original block
   } // height()
 
   /**
@@ -63,7 +66,7 @@ public class VFlip implements AsciiBlock {
    * @return the number of columns
    */
   public int width() {
-    return 0;   // STUB
+    return block.width(); // Same width as the original block
   } // width()
 
   /**
@@ -76,6 +79,21 @@ public class VFlip implements AsciiBlock {
    *    false otherwise.
    */
   public boolean eqv(AsciiBlock other) {
-    return false;       // STUB
+    if (height() != other.height() || width() != other.width()) {
+      return false; // Blocks must have the same dimensions
+    }
+
+    // Compare each row
+    try {
+      for (int i = 0; i < height(); i++) {
+        if (!row(i).equals(other.row(i))) {
+          return false;
+        }
+      }
+    } catch (Exception e) {
+      return false; // If there's an exception, they're not equivalent
+    }
+
+    return true;
   } // eqv(AsciiBlock)
 } // class VFlip
