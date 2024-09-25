@@ -117,9 +117,12 @@ public class DropShadow implements AsciiBlock {
    */
   public String row(int i) throws Exception {
     int height = this.height();
+    int width = this.width();
     if (i < 0 || i >= height) {
       throw new Exception("Invalid row: " + i);
-    } // if
+    } else if (height == 0 || width == 0) {
+      return ""; // Empty objects don't cast shadows
+    } // if/else
 
     boolean topShadow = this.vAngle == VAlignment.TOP;
     boolean bottomShadow = this.vAngle == VAlignment.BOTTOM;
@@ -137,6 +140,10 @@ public class DropShadow implements AsciiBlock {
   } // row(int)
 
   public int width() {
+    // An empty block doesn't cast a shadow
+    if(this.contents.width() <= 0) {
+      return 0;
+    } // if
     switch (this.hAngle) {
       case CENTER:
 	return this.contents.width() + 2;
@@ -146,6 +153,10 @@ public class DropShadow implements AsciiBlock {
   } // width
 
   public int height() {
+    // An empty block doesn't cast a shadow
+    if(this.contents.height() <= 0) {
+      return 0;
+    } // if
     switch (this.vAngle) {
       case CENTER:
 	return this.contents.height() + 2;
