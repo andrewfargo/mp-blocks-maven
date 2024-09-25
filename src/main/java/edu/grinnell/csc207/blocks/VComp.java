@@ -77,24 +77,28 @@ public class VComp implements AsciiBlock {
       throw new Exception("Invalid row: " + i);
     } // if
 
-    // Get the block at row i
-    int j = 0, height = 0;
-    AsciiBlock current;
-    do {
-      current = this.blocks[i];
-      height += current.height();
-      j++;
-    } while (height < i && j < this.blocks.length);
-    // Make i relative to said block
-    height -= current.height();
-    i -= height;
+    // Find the block at row i
+    AsciiBlock current = this.blocks[0];
+    int heightThusFar = 0;
+    for (int j = 0; j < this.blocks.length; j++) {
+      current = this.blocks[j];
+      int possibleHeight = heightThusFar + current.height();
+      if (possibleHeight > i) {
+	break;
+      } else {
+	heightThusFar += current.height();
+      } // if/else
+    } // for j
+
+    // Calculate the row of that block to return
+    int realRow = i - heightThusFar;
 
     // Find positional alignment
     Subdivision div = new Subdivision(this.align, this.width(),
 				      current.width());
     int[] widths = div.getWidths();
     ret += " ".repeat(widths[0]);
-    ret += current.row(i);
+    ret += current.row(realRow);
     ret += " ".repeat(widths[2]);
     return ret;
   } // row(int)
