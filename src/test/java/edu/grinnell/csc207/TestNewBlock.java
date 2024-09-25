@@ -25,43 +25,43 @@ public class TestNewBlock {
   public void testShadowLine() {
     Line hello = new Line("Hello, world!");
     assertEquals(""
-		 + "Hello, world!#\n"
-		 + "##############\n",
+		 + "Hello, world! \n"
+		 + " #############\n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.BOTTOM, HAlignment.RIGHT)));
     assertEquals(""
-		 + "*Hello, world!*\n"
+		 + " Hello, world! \n"
 		 + "###############\n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.BOTTOM, HAlignment.CENTER)));
     assertEquals(""
-		 + "#Hello, world!\n"
-		 + "##############\n",
+		 + " Hello, world!\n"
+		 + "############# \n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.BOTTOM, HAlignment.LEFT)));
     assertEquals(""
-		 + "**************\n"
+		 + "############# \n"
 		 + "#Hello, world!\n"
-		 + "**************\n",
+		 + "############# \n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.CENTER, HAlignment.LEFT)));
     assertEquals(""
-		 + "##############\n"
-		 + "#Hello, world!\n",
+		 + "############# \n"
+		 + " Hello, world!\n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.TOP, HAlignment.LEFT)));
     assertEquals(""
 		 + "###############\n"
-		 + "*Hello, world!*\n",
+		 + " Hello, world! \n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.TOP, HAlignment.CENTER)));
     assertEquals(""
-		 + "##############\n"
-		 + "Hello, world!#\n",
+		 + " #############\n"
+		 + "Hello, world! \n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.TOP, HAlignment.RIGHT)));
     assertEquals(""
-		 + "**************\n"
+		 + " #############\n"
 		 + "Hello, world!#\n"
-		 + "**************\n",
+		 + " #############\n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.CENTER, HAlignment.RIGHT)));
     assertEquals(""
-		 + "***************\n"
-		 + "*Hello, world!*\n"
-		 + "***************\n",
+		 + "###############\n"
+		 + "#Hello, world!#\n"
+		 + "###############\n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.CENTER, HAlignment.CENTER)));
   } // testShadowLine
 
@@ -74,11 +74,77 @@ public class TestNewBlock {
   } // testShadowChangedLine
 
   /**
-   * Test lines with boxes in every direction.
+   * Test shadows with rectangles in every direction.
    */
   @Test
-  public void testShadowBoxes() {
-
+  public void testShadowRect() throws Exception {
+    Rect test = new Rect('+', 3,3);
+    DropShadow shadowRect = new DropShadow(test, VAlignment.BOTTOM, HAlignment.RIGHT);
+    assertEquals(""
+		 + "aaa \n"
+		 + "aaa#\n"
+		 + "aaa#\n"
+		 + " ###\n",
+		 TestUtils.toString(shadowRect));
+    shadowRect = new DropShadow(test, VAlignment.BOTTOM, HAlignment.CENTER);
+    assertEquals(""
+		 + " aaa \n"
+		 + "#aaa#\n"
+		 + "#aaa#\n"
+		 + "#####\n",
+		 TestUtils.toString(shadowRect));
+    shadowRect = new DropShadow(test, VAlignment.BOTTOM, HAlignment.LEFT);
+    assertEquals(""
+		 + " aaa\n"
+		 + "#aaa\n"
+		 + "#aaa\n"
+		 + "### \n",
+		 TestUtils.toString(shadowRect));
+    shadowRect = new DropShadow(test, VAlignment.CENTER, HAlignment.LEFT);
+    assertEquals(""
+		 + "### \n"
+		 + "#aaa\n"
+		 + "#aaa\n"
+		 + "#aaa\n"
+		 + "### \n",
+		 TestUtils.toString(shadowRect));
+    shadowRect = new DropShadow(test, VAlignment.TOP, HAlignment.LEFT);
+    assertEquals(""
+		 + "### \n"
+		 + "#aaa\n"
+		 + "#aaa\n"
+		 + " aaa\n",
+		 TestUtils.toString(shadowRect));
+    shadowRect = new DropShadow(test, VAlignment.TOP, HAlignment.CENTER);
+    assertEquals(""
+		 + "#####\n"
+		 + "#aaa#\n"
+		 + "#aaa#\n"
+		 + " aaa \n",
+		 TestUtils.toString(shadowRect));
+    shadowRect = new DropShadow(test, VAlignment.TOP, HAlignment.RIGHT);
+    assertEquals(""
+		 + " ###\n"
+		 + "aaa#\n"
+		 + "aaa#\n"
+		 + "aaa \n",
+		 TestUtils.toString(shadowRect));
+    shadowRect = new DropShadow(test, VAlignment.CENTER, HAlignment.RIGHT);
+    assertEquals(""
+		 + " ###\n"
+		 + "aaa#\n"
+		 + "aaa#\n"
+		 + "aaa#\n"
+		 + " ###\n",
+		 TestUtils.toString(shadowRect));
+    shadowRect = new DropShadow(test, VAlignment.CENTER, HAlignment.RIGHT);
+    assertEquals(""
+		 + "#####\n"
+		 + "#aaa#\n"
+		 + "#aaa#\n"
+		 + "#aaa#\n"
+		 + "#####\n",
+		 TestUtils.toString(shadowRect));
   } // testShadowBoxes
 
   /**
