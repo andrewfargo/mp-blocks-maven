@@ -5,6 +5,7 @@ package edu.grinnell.csc207.blocks;
  *
  * @author Samuel A. Rebelsky
  * @author Bonsen Yusuf
+ * @author Andrew Fargo (eqv only)
  */
 public class HFlip implements AsciiBlock {
   // +--------+------------------------------------------------------------
@@ -81,21 +82,16 @@ public class HFlip implements AsciiBlock {
    *    false otherwise.
    */
   public boolean eqv(AsciiBlock other) {
-    if (height() != other.height() || width() != other.width()) {
-      return false; // ensure the blocks have the same dimensions
-    }
-
-    // Compare each row
-    try {
-      for (int i = 0; i < height(); i++) {
-        if (!row(i).equals(other.row(i))) {
-          return false;
-        }
-      }
-    } catch (Exception e) {
-      return false; // If there's an exception, they're not equivalent
-    }
-
-    return true;
+    return (other instanceof HFlip) && this.eqv((HFlip) other);
   } // eqv(AsciiBlock)
+
+  /**
+   * Determine if another HFlip is structurally equivalent to this block.
+   *
+   * @param other The HFlip to compare to this block.
+   * @return true if the two blocks are structurally equivalent, false otherwise.
+   */
+  public boolean eqv(HFlip other) {
+    return this.block.eqv(other.block);
+  } // eqv(HFlip)
 } // class HFlip
