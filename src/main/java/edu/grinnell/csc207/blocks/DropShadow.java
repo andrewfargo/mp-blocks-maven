@@ -88,7 +88,9 @@ public class DropShadow implements AsciiBlock {
     if (this.vAngle == VAlignment.TOP && i == 0
 	|| this.vAngle == VAlignment.BOTTOM && i == height - 1) {
       // We're printing a strong vertical shadow
-      return DropShadow.fullShadowChar.repeat(width);
+      return DropShadow.halfShadowChar
+	+ DropShadow.fullShadowChar.repeat(width - 2)
+	+ DropShadow.halfShadowChar;
     } // if
 
     return this.rowNoSpecialCases(i);
