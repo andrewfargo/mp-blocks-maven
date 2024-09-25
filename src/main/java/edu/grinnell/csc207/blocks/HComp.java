@@ -82,13 +82,14 @@ public class HComp implements AsciiBlock {
     for (AsciiBlock block : this.blocks) {
       Subdivision div = new Subdivision(this.align, height, block.height());
       Subdivision.Alignment condition = div.getAlignment(i);
+      int[] widths = div.getWidths();
       switch (condition) {
 	case ANTE:
 	case POST:
 	  ret += " ".repeat(block.width());
 	  break;
 	case CENTER:
-	  ret += block.row(i);
+	  ret += block.row(i - widths[0]);
 	  break;
 	default:
 	  throw new Exception("Invalid alignment condition: " + condition);
