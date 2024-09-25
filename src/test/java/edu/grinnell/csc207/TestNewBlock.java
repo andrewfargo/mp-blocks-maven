@@ -1,5 +1,6 @@
 package edu.grinnell.csc207;
 
+import edu.grinnell.csc207.blocks.DropShadow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
