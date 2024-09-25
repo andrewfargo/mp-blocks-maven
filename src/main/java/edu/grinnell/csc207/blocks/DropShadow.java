@@ -33,6 +33,18 @@ public class DropShadow implements AsciiBlock {
   HAlignment hAngle;
 
   /**
+   * Create a new DropShadow.
+   * @param block The contents of the dropshadow
+   * @param vertical The vertical direction of the shadow
+   * @param horizontal The horizontal direction of the shadow
+   */
+  public DropShadow(AsciiBlock block, VAlignment vertical, HAlignment horizontal) {
+    this.contents = block;
+    this.vAngle = vertical;
+    this.hAngle = horizontal;
+  }
+
+  /**
    * Get the row $i$ of the drop shadow assuming that
    * it is not a shadow-only row.
    *
@@ -88,9 +100,7 @@ public class DropShadow implements AsciiBlock {
     if (this.vAngle == VAlignment.TOP && i == 0
 	|| this.vAngle == VAlignment.BOTTOM && i == height - 1) {
       // We're printing a strong vertical shadow
-      return DropShadow.halfShadowChar
-	+ DropShadow.fullShadowChar.repeat(width - 2)
-	+ DropShadow.halfShadowChar;
+      return DropShadow.fullShadowChar.repeat(width);
     } // if
 
     return this.rowNoSpecialCases(i);
