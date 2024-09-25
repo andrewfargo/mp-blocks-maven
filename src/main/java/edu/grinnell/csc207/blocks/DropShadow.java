@@ -33,6 +33,18 @@ public class DropShadow implements AsciiBlock {
   HAlignment hAngle;
 
   /**
+   * Create a new DropShadow.
+   * @param block The contents of the dropshadow
+   * @param vertical The vertical direction of the shadow
+   * @param horizontal The horizontal direction of the shadow
+   */
+  public DropShadow(AsciiBlock block, VAlignment vertical, HAlignment horizontal) {
+    this.contents = block;
+    this.vAngle = vertical;
+    this.hAngle = horizontal;
+  }
+
+  /**
    * Get the row $i$ of the drop shadow assuming that
    * it is not a shadow-only row.
    *
@@ -54,12 +66,15 @@ public class DropShadow implements AsciiBlock {
       case LEFT:
 	leftShadow = DropShadow.fullShadowChar;
 	rightShadow = "";
+	break;
       case RIGHT:
 	leftShadow = "";
 	rightShadow = DropShadow.fullShadowChar;
+	break;
       default: // CENTER
 	leftShadow = DropShadow.halfShadowChar;
 	rightShadow = DropShadow.halfShadowChar;
+	break;
     } // switch hAngle
 
     return leftShadow + this.contents.row(realRow) + rightShadow;
