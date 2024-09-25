@@ -78,7 +78,7 @@ public class TestNewBlock {
    */
   @Test
   public void testShadowRect() throws Exception {
-    Rect test = new Rect('+', 3,3);
+    Rect test = new Rect('a', 3,3);
     DropShadow shadowRect = new DropShadow(test, VAlignment.BOTTOM, HAlignment.RIGHT);
     assertEquals(""
 		 + "aaa \n"
@@ -137,7 +137,7 @@ public class TestNewBlock {
 		 + "aaa#\n"
 		 + " ###\n",
 		 TestUtils.toString(shadowRect));
-    shadowRect = new DropShadow(test, VAlignment.CENTER, HAlignment.RIGHT);
+    shadowRect = new DropShadow(test, VAlignment.CENTER, HAlignment.CENTER);
     assertEquals(""
 		 + "#####\n"
 		 + "#aaa#\n"

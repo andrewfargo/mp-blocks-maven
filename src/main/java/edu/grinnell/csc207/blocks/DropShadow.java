@@ -13,14 +13,9 @@ public class DropShadow implements AsciiBlock {
   AsciiBlock contents;
   
   /**
-   * Represents shadow at direct angle.
+   * Character used to shade.
    */
-  private static final String fullShadowChar = "#";
-  
-  /**
-   * Represents shadow at indirect angle.
-   */
-  private static final String halfShadowChar = "*";
+  private static final String shadowChar = "#";
   
   /**
    * Vertical angle of the drop shadow.
@@ -45,40 +40,73 @@ public class DropShadow implements AsciiBlock {
   }
 
   /**
-   * Get the row $i$ of the drop shadow assuming that
+   * Get the row i of the drop shadow assuming that
    * it is not a shadow-only row.
    *
    * @param i The row index; may not be 0 if top shadow or height - 1 if bottom.
    * @return The row of text.
    * @throws Exception If the row of the content block is invalid.
    */
-  private String rowNoSpecialCases(int i) throws Exception {
+  private String contentRow(int i) throws Exception {
     // Get the row of the contents block
     int realRow = i;
     if (this.vAngle == VAlignment.TOP || this.vAngle == VAlignment.CENTER) {
       realRow--;
     } // if
 
-    String leftShadow;
-    String rightShadow;
+    // Are we printing a space where a shadow should go?
+    boolean hasDropChar = (realRow == 0 && this.vAngle == VAlignment.BOTTOM)
+      || (realRow == this.contents.height() - 1 && this.vAngle == VAlignment.TOP);
 
-    switch(this.hAngle) {
+    String printChar = hasDropChar ? " " : DropShadow.shadowChar;
+
+    String leftChar = "";
+    String rightChar = "";
+
+    switch (this.hAngle) {
       case LEFT:
-	leftShadow = DropShadow.fullShadowChar;
-	rightShadow = "";
+	leftChar = printChar;
 	break;
-      case RIGHT:
-	leftShadow = "";
-	rightShadow = DropShadow.fullShadowChar;
+      case CENTER:
+	leftChar = printChar;
+	rightChar = printChar;
 	break;
-      default: // CENTER
-	leftShadow = DropShadow.halfShadowChar;
-	rightShadow = DropShadow.halfShadowChar;
+      default: // Right
+	rightChar = printChar;
 	break;
-    } // switch hAngle
+    } // switch
 
-    return leftShadow + this.contents.row(realRow) + rightShadow;
-  } // rowNoSpecialCases(int)
+    return leftChar + this.contents.row(realRow) + rightChar;
+  } // contentRow(int)
+
+  /**
+   * Get the row i of the drop shadow assuming that
+   * it is a shadow-only row.
+   *
+   * @param i The row index
+   * @return The row of text
+   */
+  private String shadowRow(int i) {
+    // We're certainly drawing some shadow.
+    String shadowMiddle = DropShadow.shadowChar.repeat(this.width() - 2);
+    // We may or may not have shadows on the left and right, let's assume we don't.
+    String shadowLeft = " ";
+    String shadowRight = " ";
+
+    switch (this.hAngle) {
+      case LEFT:
+	shadowLeft = DropShadow.shadowChar;
+	break;
+      case CENTER:
+	shadowLeft = DropShadow.shadowChar;
+	shadowRight = DropShadow.shadowChar;
+	break;
+      default: // Right
+	shadowRight = DropShadow.shadowChar;
+	break;
+    } // switch
+    return shadowLeft + shadowMiddle + shadowRight;
+  }
 
   /**
    * Get a row of text from the DropShadow block.
@@ -89,24 +117,23 @@ public class DropShadow implements AsciiBlock {
    */
   public String row(int i) throws Exception {
     int height = this.height();
-    int width = this.width();
     if (i < 0 || i >= height) {
       throw new Exception("Invalid row: " + i);
     } // if
-    
-    if (this.vAngle == VAlignment.CENTER
-	&& (i == 0 || i == height - 1)) {
-      // We're printing a weak vertical shadow
-      return DropShadow.halfShadowChar.repeat(width);
-    } // if
-    
-    if (this.vAngle == VAlignment.TOP && i == 0
-	|| this.vAngle == VAlignment.BOTTOM && i == height - 1) {
-      // We're printing a strong vertical shadow
-      return DropShadow.fullShadowChar.repeat(width);
-    } // if
 
-    return this.rowNoSpecialCases(i);
+    boolean topShadow = this.vAngle == VAlignment.TOP;
+    boolean bottomShadow = this.vAngle == VAlignment.BOTTOM;
+
+    // But center shadows have both
+
+    topShadow |= this.vAngle == VAlignment.CENTER;
+    bottomShadow |= this.vAngle == VAlignment.CENTER;
+
+    if ((topShadow && i == 0) || (bottomShadow && i == height - 1)) {
+      return shadowRow(i);
+    } else {
+      return contentRow(i);
+    } // else
   } // row(int)
 
   public int width() {
