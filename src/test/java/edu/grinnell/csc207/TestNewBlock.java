@@ -28,6 +28,41 @@ public class TestNewBlock {
 		 + "Hello, world!#\n"
 		 + "##############\n",
 		 TestUtils.toString(new DropShadow(hello, VAlignment.BOTTOM, HAlignment.RIGHT)));
+    assertEquals(""
+		 + "*Hello, world!*\n"
+		 + "###############\n",
+		 TestUtils.toString(new DropShadow(hello, VAlignment.BOTTOM, HAlignment.CENTER)));
+    assertEquals(""
+		 + "#Hello, world!\n"
+		 + "##############\n",
+		 TestUtils.toString(new DropShadow(hello, VAlignment.BOTTOM, HAlignment.LEFT)));
+    assertEquals(""
+		 + "**************\n"
+		 + "#Hello, world!\n"
+		 + "**************\n",
+		 TestUtils.toString(new DropShadow(hello, VAlignment.CENTER, HAlignment.LEFT)));
+    assertEquals(""
+		 + "##############\n"
+		 + "#Hello, world!\n",
+		 TestUtils.toString(new DropShadow(hello, VAlignment.TOP, HAlignment.LEFT)));
+    assertEquals(""
+		 + "###############\n"
+		 + "*Hello, world!*\n",
+		 TestUtils.toString(new DropShadow(hello, VAlignment.TOP, HAlignment.CENTER)));
+    assertEquals(""
+		 + "##############\n"
+		 + "Hello, world!#\n",
+		 TestUtils.toString(new DropShadow(hello, VAlignment.TOP, HAlignment.RIGHT)));
+    assertEquals(""
+		 + "**************\n"
+		 + "Hello, world!#\n"
+		 + "**************\n",
+		 TestUtils.toString(new DropShadow(hello, VAlignment.CENTER, HAlignment.RIGHT)));
+    assertEquals(""
+		 + "***************\n"
+		 + "*Hello, world!*\n"
+		 + "***************\n",
+		 TestUtils.toString(new DropShadow(hello, VAlignment.CENTER, HAlignment.CENTER)));
   } // testShadowLine
 
   /**
