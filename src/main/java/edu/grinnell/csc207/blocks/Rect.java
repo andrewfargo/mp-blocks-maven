@@ -98,9 +98,19 @@ public class Rect implements AsciiBlock {
    *    false otherwise.
    */
   public boolean eqv(AsciiBlock other) {
-    return false;       // STUB
+    return (other instanceof Rect) && this.eqv((Rect) other);
   } // eqv(AsciiBlock)
 
+  /**
+   * Determine if another Rectangle is structurally equivalent.
+   *
+   * @param other The other Rectangle block
+   * @return true if they are structurally equivalent,
+   *   false otherwise.
+   */
+  public boolean eqv(Rect other) {
+    return this.row.equals(other.row) && this.height == other.height;
+  } // eqv(Rectangle)
   // +---------------+-----------------------------------------------
   // | Other methods |
   // +---------------+
