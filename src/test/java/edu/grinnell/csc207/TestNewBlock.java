@@ -151,9 +151,42 @@ public class TestNewBlock {
    * Test shadows with changed rectangles.
    */
   @Test
-  public void testShadowChangedRect() {
-
-  }
+  public void testShadowChangedRect() throws Exception {
+    Rect test = new Rect('a', 3, 3);
+    DropShadow shadowRect = new DropShadow(test, VAlignment.BOTTOM, HAlignment.RIGHT);
+    assertEquals(""
+		 + "aaa \n"
+		 + "aaa#\n"
+		 + "aaa#\n"
+		 + " ###\n",
+		 TestUtils.toString(shadowRect));
+    test.wider();
+    assertEquals(""
+		 + "aaaa \n"
+		 + "aaaa#\n"
+		 + "aaaa#\n"
+		 + " ####\n",
+		 TestUtils.toString(shadowRect));
+    test.shorter();
+    assertEquals(""
+		 + "aaaa \n"
+		 + "aaaa#\n"
+		 + " ####\n",
+		 TestUtils.toString(shadowRect));
+    test.narrower();
+    assertEquals(""
+		 + "aaa \n"
+		 + "aaa#\n"
+		 + " ###\n",
+		 TestUtils.toString(shadowRect));
+    test.taller();
+    assertEquals(""
+		 + "aaa \n"
+		 + "aaa#\n"
+		 + "aaa#\n"
+		 + " ###\n",
+		 TestUtils.toString(shadowRect));
+  } // testShadowChangedRect
   
   /**
    * Test shadows with composition.
