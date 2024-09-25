@@ -66,12 +66,15 @@ public class DropShadow implements AsciiBlock {
       case LEFT:
 	leftShadow = DropShadow.fullShadowChar;
 	rightShadow = "";
+	break;
       case RIGHT:
 	leftShadow = "";
 	rightShadow = DropShadow.fullShadowChar;
+	break;
       default: // CENTER
 	leftShadow = DropShadow.halfShadowChar;
 	rightShadow = DropShadow.halfShadowChar;
+	break;
     } // switch hAngle
 
     return leftShadow + this.contents.row(realRow) + rightShadow;

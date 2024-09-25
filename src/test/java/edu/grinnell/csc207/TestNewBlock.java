@@ -27,7 +27,7 @@ public class TestNewBlock {
     assertEquals(""
 		 + "Hello, world!#\n"
 		 + "##############\n",
-		 new DropShadow(hello, VAlignment.BOTTOM, HAlignment.RIGHT));
+		 TestUtils.toString(new DropShadow(hello, VAlignment.BOTTOM, HAlignment.RIGHT)));
   } // testShadowLine
 
   /**
