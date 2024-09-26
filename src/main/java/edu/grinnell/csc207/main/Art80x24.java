@@ -3,10 +3,12 @@ package edu.grinnell.csc207.main;
 import edu.grinnell.csc207.blocks.AsciiBlock;
 import edu.grinnell.csc207.blocks.Boxed;
 import edu.grinnell.csc207.blocks.DropShadow;
-import edu.grinnell.csc207.blocks.EmptyBlock; 
-import edu.grinnell.csc207.blocks.GridBlock;
 import edu.grinnell.csc207.blocks.HAlignment;
 import edu.grinnell.csc207.blocks.VAlignment;
+import edu.grinnell.csc207.blocks.Line;
+import edu.grinnell.csc207.blocks.Rect;
+import edu.grinnell.csc207.blocks.HComp;
+import edu.grinnell.csc207.blocks.VComp;
 
 import java.io.PrintWriter;
 
@@ -28,8 +30,10 @@ public class Art80x24 {
     */
    public static void main(String[] args) throws Exception {
        AsciiBlock clock = createClock();
+       Rect eightyWide = new Rect(' ', 80, 1);
+       VComp image = new VComp(HAlignment.CENTER, clock, eightyWide);
        PrintWriter pen = new PrintWriter(System.out, true);
-       AsciiBlock.print(pen, clock);
+       AsciiBlock.print(pen, image);
        pen.close();
    } // main(String[])
 
@@ -39,70 +43,71 @@ public class Art80x24 {
     *
     * @return An AsciiBlock representing the clock artwork.
     */
-   private static AsciiBlock createClock() {
-       AsciiBlock[] rows = new AsciiBlock[11];
+  private static AsciiBlock createClock() throws Exception {
+    AsciiBlock[] numbers = new AsciiBlock[12];
+    for (int i = 1; i <= 12; i++) {
+      String numStr = String.format("%2d", i);
+      AsciiBlock box = createDropShadowedBox(numStr);
+      numbers[i % 12] = box;
+    }
+    
+    AsciiBlock[] cols = new AsciiBlock[11];
+    
+    // Col 1: 9
+    cols[0] = numbers[9];
+    
+    // Col 2: 10 & 8
+    cols[1] = createColWithHeight(numbers[10], 13, numbers[8]);
 
-       // Row 1: 5 spaces, 12, 5 spaces
-       rows[0] = createRowWithSpaces(25, createDropShadowedBox("12"), 5, createEmptyBlock(0, 1), 0);
+    // Col 3: Spacer
+    cols[2] = new Rect(' ', 1, 1);
+    
+    // Col 4: 11 & 7
+    cols[3] = createColWithHeight(numbers[11], 20, numbers[7]);
 
-       // Row 2: 2 spaces, 11, 5 spaces, 1, 2 spaces
-       rows[1] = createRowWithSpaces(2, createDropShadowedBox("11"), 5,
-                                      createDropShadowedBox("1"), 2);
+    // Col 5: Spacer
+    cols[4] = new Rect(' ', 2, 1);
+    
+    // Col 6: 12 & 6
+    cols[5] = createColWithHeight(numbers[0], 23, numbers[6]);
 
-       // Row 3: 11 spaces
-       rows[2] = createEmptyBlock(11, 1); // Assuming height of 1 for empty rows
+    // Col 7: Spacer
+    cols[6] = new Rect(' ', 2, 1);
+    
+    // Col 8: 1 & 5
+    cols[7] = createColWithHeight(numbers[1], 20, numbers[5]);
 
-       // Row 4: 1 space, 10, 7 spaces, 2, 1 space
-       rows[3] = createRowWithSpaces(1, createDropShadowedBox("10"), 7,
-                                      createDropShadowedBox("2"), 1);
+    // Col 9: Spacer
+    cols[8] = new Rect(' ', 1, 1);
 
-       // Row 5: 11 spaces
-       rows[4] = createEmptyBlock(11, 1);
+    // Col 10: 2 & 4
+    cols[9] = createColWithHeight(numbers[2], 13, numbers[5]);
 
-       // Row 6: 0 spaces, 9, 9 spaces, 3
-       rows[5] = createRowWithSpaces(0, createDropShadowedBox("9"), 9,
-                                      createDropShadowedBox("3"), 0);
-
-       // Row 7: 11 spaces
-       rows[6] = createEmptyBlock(11, 1);
-
-       // Row 8: 1 space, 8, 7 spaces, 4, 1 space
-       rows[7] = createRowWithSpaces(1, createDropShadowedBox("8"), 7,
-                                      createDropShadowedBox("4"), 1);
-
-       // Row 9: 11 spaces
-       rows[8] = createEmptyBlock(11, 1);
-
-       // Row 10: 2 spaces, 7, 5 spaces, 5, 2 spaces
-       rows[9] = createRowWithSpaces(2, createDropShadowedBox("7"), 5,
-                                      createDropShadowedBox("5"), 2);
-
-       // Row 11: 5 spaces, 6, 5 spaces
-       rows[10] = createRowWithSpaces(5, createDropShadowedBox("6"), 5, createEmptyBlock(0, 1), 0);
-
-       // Create a grid from the rows
-       return new GridBlock(rows);
-   } // createClock()
+    // Col 11: 3
+    cols[10] = numbers[3];
+     
+    // Create a grid from the rows
+    return new HComp(VAlignment.CENTER, cols);
+  } // createClock()
 
    /**
-    * Create a row with specified elements and spaces between them.
+    * Create a col with specified elements and spaces between them.
     *
-    * @param firstSpace Number of leading spaces.
     * @param firstBlock The first AsciiBlock element.
-    * @param firstGap Number of spaces between firstBlock and secondBlock.
+    * @param gap Number of spaces between firstBlock and secondBlock.
     * @param secondBlock The second AsciiBlock element.
-    * @param secondSpace Number of trailing spaces.
     *
     * @return An AsciiBlock representing the constructed row.
+    * @throws Exception When gap is less than or equal to zero.
     */
-   private static AsciiBlock createRowWithSpaces(int firstSpace, AsciiBlock firstBlock,
-                                                 int firstGap, AsciiBlock secondBlock,
-                                                 int secondSpace) {
-       AsciiBlock firstSpaces = createEmptyBlock(firstSpace, 1);
-       AsciiBlock gapSpaces = createEmptyBlock(firstGap, 1);
-       AsciiBlock trailingSpaces = createEmptyBlock(secondSpace, 1);
+  private static AsciiBlock createColWithHeight(AsciiBlock firstBlock, int gap,
+						AsciiBlock secondBlock)
+    throws Exception {
+    int realGap = gap - firstBlock.height() - secondBlock.height();
+    Rect gapSpaces = new Rect(' ', 1, realGap);
 
-       return new GridBlock(new AsciiBlock[]{firstSpaces, firstBlock, gapSpaces, secondBlock, trailingSpaces});
+    AsciiBlock[] arr = new AsciiBlock[] {firstBlock, gapSpaces, secondBlock};
+    return new VComp(HAlignment.CENTER, arr);
    } // createRowWithSpaces
 
    /**
@@ -112,20 +117,10 @@ public class Art80x24 {
     * @return An AsciiBlock representing the drop-shadowed box.
     */
    private static AsciiBlock createDropShadowedBox(String text) {
-       // Create the inner box
-       AsciiBlock boxedText = new Boxed(createEmptyBlock(text.length(), 1)); 
-       // Create the drop shadow with centered alignment
-       return new DropShadow(boxedText, VAlignment.CENTER, HAlignment.CENTER);
+     // Create the inner box
+     Line lineText = new Line(text);
+     Boxed boxedText = new Boxed(lineText); 
+     // Create the drop shadow with centered alignment
+     return new DropShadow(boxedText, VAlignment.BOTTOM, HAlignment.RIGHT);
    } // createDropShadowedBox
-
-   /**
-    * Create an EmptyBlock with a specified width and height.
-    *
-    * @param width The width of the empty block.
-    * @param height The height of the empty block.
-    * @return An EmptyBlock representing the empty spaces.
-    */
-   private static AsciiBlock createEmptyBlock(int width, int height) {
-       return new EmptyBlock(width, height); // Assuming EmptyBlock is defined to handle this
-   } // createEmptyBlock
 } // class Art80x24
