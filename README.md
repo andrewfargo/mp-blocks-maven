@@ -27,9 +27,17 @@ import grinnell.edu.csc207.blocks.*
 ```
 or any specific block therein.
 
+**Acknowledgements and Other Notes**
+
+Individual CS tutoring help was utilized for the Art24x80 class.
+
+The delegation of the assignment was done before the cancellation of 
+`Trimmed` and `Padded` classes.
+
 ---
 
 This code may be found at <https://github.com/andrewfargo/mp-blocks-maven>. 
 The original project can be found at <https://github.com/Grinnell-CSC207/mp-blocks-maven>.
 
 Specifications for this project may be found at <https://rebelsky.cs.grinnell.edu/Courses/CSC207/2024Fa/mps/mp03.html>
+
