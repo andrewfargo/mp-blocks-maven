@@ -28,7 +28,7 @@ import edu.grinnell.csc207.blocks.VAlignment;
  * to be placed such that it minimizes the antecontent or postcontent lengths
  * (if aligned antecontent and postcontent, respectively), or maximizes both,
  * (if aligned center; preferring maximization of postcontent).
- * 
+ *
  * @author Andrew N. Fargo
  */
 public class Subdivision {
@@ -38,7 +38,7 @@ public class Subdivision {
   private final int content;
   /** How long the postcontent section is. */
   private final int postcontent;
-  
+
   /**
    * A generic representation of HAlign and VAlign,
    * defined by how they impact the calculations.
@@ -61,13 +61,13 @@ public class Subdivision {
   private static Alignment convertHAlign(HAlignment align) {
     switch (align) {
       case LEFT:
-	return Alignment.ANTE;
+        return Alignment.ANTE;
       case CENTER:
-	return Alignment.CENTER;
+        return Alignment.CENTER;
       case RIGHT:
-	return  Alignment.POST;
+        return  Alignment.POST;
       default:
-	throw new RuntimeException("Invalid HAlignment provided.");
+        throw new RuntimeException("Invalid HAlignment provided.");
     } // switch
   } // convertHAlign(HAlignment)
 
@@ -80,13 +80,13 @@ public class Subdivision {
   private static Alignment convertVAlign(VAlignment align) {
     switch (align) {
       case TOP:
-	return Alignment.ANTE;
+        return Alignment.ANTE;
       case CENTER:
-	return Alignment.CENTER;
+        return Alignment.CENTER;
       case BOTTOM:
-	return Alignment.POST;
+        return Alignment.POST;
       default:
-	throw new RuntimeException("Invalid VAlignment provided.");
+        throw new RuntimeException("Invalid VAlignment provided.");
     } // switch
   } // convertVAlign(VAlignment)
 
@@ -134,18 +134,18 @@ public class Subdivision {
     switch (align) {
       case ANTE:
         this.antecontent = 0;
-	this.postcontent = remainder;
-	break;
+        this.postcontent = remainder;
+        break;
       case CENTER:
         this.antecontent = remainder / 2;
-	this.postcontent = totalWidth - this.content - this.antecontent;
-	break;
+        this.postcontent = totalWidth - this.content - this.antecontent;
+        break;
       case POST:
         this.postcontent = 0;
-	this.antecontent = remainder;
-	break;
+        this.antecontent = remainder;
+        break;
       default:
-	throw new RuntimeException("Invalid alignment provided.");
+        throw new RuntimeException("Invalid alignment provided.");
     } // switch
   } // Subdivision(Alignment, int, int)
 
@@ -155,8 +155,8 @@ public class Subdivision {
    */
   public int[] getWidths() {
     return new int[] {this.antecontent,
-		      this.content,
-		      this.postcontent};
+                      this.content,
+                      this.postcontent};
   } // getWidths()
 
   /**

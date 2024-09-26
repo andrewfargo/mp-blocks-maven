@@ -84,9 +84,9 @@ public class VComp implements AsciiBlock {
       current = this.blocks[j];
       int possibleHeight = heightThusFar + current.height();
       if (possibleHeight > i) {
-	break;
+        break;
       } else {
-	heightThusFar += current.height();
+        heightThusFar += current.height();
       } // if/else
     } // for j
 
@@ -95,7 +95,7 @@ public class VComp implements AsciiBlock {
 
     // Find positional alignment
     Subdivision div = new Subdivision(this.align, this.width(),
-				      current.width());
+                                      current.width());
     int[] widths = div.getWidths();
     ret += " ".repeat(widths[0]);
     ret += current.row(realRow);
@@ -112,7 +112,7 @@ public class VComp implements AsciiBlock {
     int sum = 0;
     for (AsciiBlock block : this.blocks) {
       sum += block.height();
-    }
+    } // for block
     return sum;
   } // height()
 
@@ -126,7 +126,7 @@ public class VComp implements AsciiBlock {
     for (AsciiBlock block : this.blocks) {
       int width = block.width();
       if (width > max) {
-	max = width;
+        max = width;
       } // if
     } // for block
     return max;
@@ -161,7 +161,7 @@ public class VComp implements AsciiBlock {
 
     for (int i = 0; i < this.blocks.length; i++) {
       if (!this.blocks[i].eqv(other.blocks[i])) {
-	return false;
+        return false;
       } // if
     } // for i
     return true;

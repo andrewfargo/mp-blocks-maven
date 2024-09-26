@@ -84,16 +84,16 @@ public class HComp implements AsciiBlock {
       Subdivision.Alignment condition = div.getAlignment(i);
       int[] widths = div.getWidths();
       switch (condition) {
-	case ANTE:
-	case POST:
-	  ret += " ".repeat(block.width());
-	  break;
-	case CENTER:
-	  ret += block.row(i - widths[0]);
-	  break;
-	default:
-	  throw new Exception("Invalid alignment condition: " + condition);
-      }
+        case ANTE:
+        case POST:
+          ret += " ".repeat(block.width());
+          break;
+        case CENTER:
+          ret += block.row(i - widths[0]);
+          break;
+        default:
+          throw new Exception("Invalid alignment condition: " + condition);
+      } // case condition
     } // for block
     return ret;
   } // row(int)
@@ -108,7 +108,7 @@ public class HComp implements AsciiBlock {
     for (AsciiBlock block : this.blocks) {
       int height = block.height();
       if (height > max) {
-	max = height;
+        max = height;
       } // if
     } // for block
     return max;
@@ -156,7 +156,7 @@ public class HComp implements AsciiBlock {
 
     for (int i = 0; i < this.blocks.length; i++) {
       if (!this.blocks[i].eqv(other.blocks[i])) {
-	return false;
+        return false;
       } // if
     } // for i
     return true;

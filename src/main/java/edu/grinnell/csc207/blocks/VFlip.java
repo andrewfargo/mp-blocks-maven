@@ -47,8 +47,9 @@ public class VFlip implements AsciiBlock {
   public String row(int i) throws Exception {
     if (i < 0 || i >= height()) {
       throw new Exception("Invalid row index: " + i);
-    }
-    return block.row(height() - 1 - i); // Flip the row vertically, height() - 1 gives the index of the last row in the block and subtracting i from this value effectively maps the row index i to its corresponding row in the original block when viewed upside down.
+    } // if
+    // height() - 1 is the top; subtract i for vertical flip
+    return block.row((height() - 1) - i);
   } // row(int)
 
   /**

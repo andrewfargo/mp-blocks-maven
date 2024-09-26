@@ -48,7 +48,7 @@ public class HFlip implements AsciiBlock {
   public String row(int i) throws Exception {
     if (i < 0 || i >= height()) { //index cannot be negative or out of the height bounds
       throw new Exception("Invalid row index: " + i);
-    }
+    } // if
     // Get the original row and reverse it
     String originalRow = block.row(i);
     return new StringBuilder(originalRow).reverse().toString(); // Reverse the string
